@@ -10,22 +10,23 @@ audioclient.on("handshake", (payload) => {
 })
 
 //regions
-
 audioclient.on("regions.play", (payload)=>{
     regionManager.enter(payload);
 });
-
 audioclient.on("regions.stop", (payload)=>{
     regionManager.leave(payload);
 });
 
-//wait until everything is loaded, then push token towards socket
-audioclient.io.on("connect", function (){
-    const urlParams = new URLSearchParams(window.location.search);
-    if(urlParams.has("token")){
-        console.log("Connecting with token: "+  urlParams.get("token"))
-        audioclient.send("handshake",{
-            token: urlParams.get("token")
-        });
-    }
+$('#button.connect').click(function() {
+    //wait until everything is loaded, then push token towards socket
+    audioclient.io.on("connect", function (){
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.has("token")){
+            console.log("Connecting with token: "+  urlParams.get("token"))
+            audioclient.send("handshake",{
+                token: urlParams.get("token")
+            });
+        }
+    });
 });
+
